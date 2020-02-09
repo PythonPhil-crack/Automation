@@ -1,6 +1,6 @@
 Shiritori_game.py
-__pycache__/
-chromedriver.exe/
+__pycache__
+chromedriver.exe
 daten.csv
 debugg.py
 edabit.py
