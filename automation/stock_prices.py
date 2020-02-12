@@ -1,0 +1,41 @@
+from selenium import webdriver
+import smtplib
+from time import sleep
+from privacy import username, pw
+
+
+class Agent:
+    def __init__(self):
+        self.driver = webdriver.Chrome()
+
+        self.driver.get(
+            "https://www.google.com/search?q=abott+stcok&oq=abott+stcok&aqs=chrome..69i57j0l7.5354j1j8&sourceid=chrome&ie=UTF-8")
+        sleep(5)
+
+    def check_price(self):
+        global aktueller_preis
+        aktueller_preis = self.driver.find_element_by_xpath(
+            "/html/body/div[7]/div[3]/div[9]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div/div/g-card-section[1]/div/g-card-section/span[1]/span/span[1]").text
+        aktueller_preis = int(aktueller_preis[0]+aktueller_preis[1])
+        print(aktueller_preis)
+
+    def send_mail(self):
+        server = smtplib.SMTP("smtp.gmx.net", port=587)
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
+
+        server.login(username, pw)
+
+        subject = "Ihre Aktie ist gestiegen!"
+
+        message = f"Betreff: {subject}\n\n Der neue Preis ist {aktueller_preis}$"
+        server.sendmail("phil.black@gmx.net", "j_rados@yahoo.de", message)
+        server.quit()
+
+
+my_Agent = Agent()
+my_Agent.check_price()
+if int(aktueller_preis) >= 82:
+    my_Agent.send_mail()
+    print("sending Email")
