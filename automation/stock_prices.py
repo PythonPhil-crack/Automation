@@ -8,24 +8,29 @@ class Agent:
     def __init__(self):
         self.driver = webdriver.Chrome()
 
+    def check_price(self):
+
         self.driver.get(
             "https://www.google.com/search?q=abott+stcok&oq=abott+stcok&aqs=chrome..69i57j0l7.5354j1j8&sourceid=chrome&ie=UTF-8")
-        sleep(5)
+        sleep(2)
 
-    def check_price(self):
         global aktueller_preis
         aktueller_preis = self.driver.find_element_by_xpath(
             "/html/body/div[7]/div[3]/div[9]/div[1]/div[2]/div/div[2]/div[2]/div/div/div[1]/div/div/div/div/g-card-section[1]/div/g-card-section/span[1]/span/span[1]").text
-        aktueller_preis = int(aktueller_preis[0]+aktueller_preis[1])
+        aktueller_preis = float(aktueller_preis[0]+aktueller_preis[1])
         print(aktueller_preis)
 
+        self.driver.quit()
+
     def send_mail(self):
-        server = smtplib.SMTP("smtp.gmx.net", port=587)
-        server.ehlo()
+        self.driver.quit()
+        server = smtplib.SMTP("mail.gmx.net", port=587)
+        server.ehlo_or_helo_if_needed()
         server.starttls()
-        server.ehlo()
+        server.ehlo_or_helo_if_needed()
 
         server.login(username, pw)
+        print("login to Email worked")
 
         subject = "Ihre Aktie ist gestiegen!"
 
@@ -34,8 +39,5 @@ class Agent:
         server.quit()
 
 
-my_Agent = Agent()
-my_Agent.check_price()
-if int(aktueller_preis) >= 82:
-    my_Agent.send_mail()
-    print("sending Email")
+Agent().check_price()
+Agent().send_mail()
