@@ -1,7 +1,7 @@
 from selenium import webdriver
 import smtplib
 from time import sleep
-from privacy import username, pw
+from privacy import username, pw, receiver
 
 
 class Agent:
@@ -35,7 +35,7 @@ class Agent:
         subject = "Ihre Aktie ist gestiegen!"
 
         message = f"Betreff: {subject}\n\n Der neue Preis ist {aktueller_preis}$"
-        server.sendmail("phil.black@gmx.net", "j_rados@yahoo.de", message)
+        server.sendmail(username, receiver, message)
         server.quit()
 
 
