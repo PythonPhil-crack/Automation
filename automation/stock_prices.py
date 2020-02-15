@@ -39,4 +39,5 @@ class Agent:
 
 
 Agent().check_price()
-Agent().send_mail()
+if aktueller_preis > 83.00:
+    Agent().send_mail()
