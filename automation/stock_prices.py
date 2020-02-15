@@ -31,7 +31,7 @@ class Agent:
         server.login(username, pw)
         print("login to Email worked")
 
-        subject = "Ihre Aktie ist gestiegen!"
+        subject = "Ihre Abbott-Aktie ist gestiegen!"
 
         message = f"Subject:{subject}\n\n Der neue Preis ist {aktueller_preis}€"
         server.sendmail(username, receiver, message)
